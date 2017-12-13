@@ -78,7 +78,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         req = HTTPRequest(url,
                           method="POST",
-                          headers = headers
+                          headers = headers,
                           body=urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
 
