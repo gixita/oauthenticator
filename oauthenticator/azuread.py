@@ -29,10 +29,9 @@ def _api_headers(access_token):
 
 
 class AzureAdMixin(OAuth2Mixin):
-    #_AZUREAD_AUTHORIZE_URL = "%s://%s/login/oauth/authorize" % (GITHUB_PROTOCOL, GITHUB_HOST)
-    #_AZUREAD_TOKEN_URL = "%s://%s/login/oauth/access_token" % (GITHUB_PROTOCOL, GITHUB_HOST)
-    pass
-
+    _OAUTH_AUTHORIZE_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/v2.0/authorize"
+    #"%s://%s/login/oauth/authorize" % (GITHUB_PROTOCOL, GITHUB_HOST)
+    _OAUTH_ACCESS_TOKEN_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/token" #"%s://%s/login/oauth/access_token" % (GITHUB_PROTOCOL, GITHUB_HOST)
 
 class AzureAdLoginHandler(OAuthLoginHandler, AzureAdMixin):
     pass
