@@ -29,8 +29,8 @@ def _api_headers(access_token):
 
 
 class AzureAdMixin(OAuth2Mixin):
-    _OAUTH_ACCESS_TOKEN_URL = c.AzureAdOAuthenticator.token_url #os.environ.get('OAUTH2_TOKEN_URL', '')
-    _OAUTH_AUTHORIZE_URL =  c.AzureAdOAuthenticator.authorize_url #os.environ.get('OAUTH2_AUTHORIZE_URL', '')
+    _OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH2_TOKEN_URL', '')
+    _OAUTH_AUTHORIZE_URL =  os.environ.get('OAUTH2_AUTHORIZE_URL', '')
     
 class AzureAdLoginHandler(OAuthLoginHandler, AzureAdMixin):
     pass
@@ -44,7 +44,7 @@ class AzureAdOAuthenticator(OAuthenticator):
     login_handler = AzureAdLoginHandler
 
     authorize_url = Unicode(
-        os.environ.get('_OAUTH_AUTHORIZE_URL', ''),
+        os.environ.get('OAUTH_AUTHORIZE_URL', ''),
         config=True,
         help="Authorize url"
     )
