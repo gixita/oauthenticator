@@ -29,6 +29,12 @@ def _api_headers(access_token):
             "Authorization": "token {}".format(access_token)
             }
 
+# we need this, as microsoft expects '&' not to be encoded in the POST body
+def dictToQuery(d):
+    query = ''
+    for key in d.keys():
+        query += str(key) + '=' + str(d[key]) + "&"
+    return query
 
 class AzureAdMixin(OAuth2Mixin):
     _OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH2_TOKEN_URL', '')
@@ -56,13 +62,6 @@ class AzureAdOAuthenticator(OAuthenticator):
         config=True,
         help="Token url"
     )
-
-    # we need this, as microsoft expects '&' not to be encoded in the POST body
-    def dictToQuery(d):
-        query = ''
-        for key in d.keys():
-            query += str(key) + '=' + str(d[key]) + "&"
-        return query
 
     @gen.coroutine
     def authenticate(self, handler, data=None):
