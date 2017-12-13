@@ -79,14 +79,14 @@ class AzureAdOAuthenticator(OAuthenticator):
         
         req = HTTPRequest(url,
                           method="POST",
-                          headers={"Accept": "application/json"},
+                          headers={"Accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"},
                           body=''  # Body is required for a POST...
                           )
 
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
 
-        print(resp_json)
+        app_log.info("Response %s", resp_json)
         access_token = resp_json['access_token']
         #context = adal.AuthenticationContext(authority_url, validate_authority=True, api_version=None)
 
