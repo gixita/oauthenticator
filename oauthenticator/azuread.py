@@ -51,15 +51,16 @@ class AzureAdOAuthenticator(OAuthenticator):
         """We set up auth_state based on additional GitHub info if we
         receive it.
         """
-        code = handler.get_argument("code")
+        #code = handler.get_argument("code")
         
-        context = adal.AuthenticationContext(authority_url, validate_authority=True, api_version=None)
+        #context = adal.AuthenticationContext(authority_url, validate_authority=True, api_version=None)
 
-        token = context.acquire_token_with_client_credentials(
-            RESOURCE,
-            sample_parameters['clientId'],
-            sample_parameters['clientSecret'])
+        #token = context.acquire_token_with_client_credentials(
+        #    RESOURCE,
+        #    sample_parameters['clientId'],
+        #    sample_parameters['clientSecret'])
 
+        return None
 #            import os
 #from azure.common.credentials import ServicePrincipalCredentials
 #from azure.mgmt.resource import ResourceManagementClient
@@ -97,7 +98,7 @@ class AzureAdOAuthenticator(OAuthenticator):
 
         return userdict
 
-class LocalAzureAdOAuthenticator(LocalAuthenticator, GitHubOAuthenticator):
+class LocalAzureAdOAuthenticator(LocalAuthenticator, AzureAdOAuthenticator):
 
     """A version that mixes in local system user creation"""
     pass
