@@ -76,11 +76,12 @@ class AzureAdOAuthenticator(OAuthenticator):
             client_secret=self.client_secret,
             grant_type = 'authorization_code',
             code=code,
-            resoruce='a67c1e23-de97-4783-99f3-db500c34982c',
+            resource='a67c1e23-de97-4783-99f3-db500c34982c',
             redirect_uri=self.get_callback_url(handler)
         )
 
-        data = urllib.parse.urlencode(params, doseq=True, encoding='utf-8')
+        data = urllib.parse.urlencode(params, doseq=True, encoding='utf-8', safe='=')
+        #"&".join("{}={}".format(*i) for i in mydict.items())
 
         app_log.info("Request params %s", data)
 
