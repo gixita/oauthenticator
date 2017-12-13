@@ -67,21 +67,20 @@ class AzureAdOAuthenticator(OAuthenticator):
         params = dict(
             client_id=self.client_id,
             client_secret=self.client_secret,
-            grant_type = "authorization_code",
+            grant_type = 'authorization_code',
             code=code,
-            redirect_uri = self.oauth_callback_url
+            redirect_uri=self.get_callback_url(handler)
         )
 
-        app_log.info("Request params %s", params)
-        app_log.info("Request URL %s", self.token_url)
-
-        url = url_concat(self.token_url, params)
+        url = self.token_url
         
         req = HTTPRequest(url,
                           method="POST",
-                          headers={"Accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"},
-                          body=''  # Body is required for a POST...
+                          headers={"Content-Type": "application/x-www-form-urlencoded"},
+                          body=urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
+
+        app_log.info("Request URL %s", req)
 
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
