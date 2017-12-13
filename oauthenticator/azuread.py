@@ -79,7 +79,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         req = HTTPRequest(url,
                           method="POST",
                           headers = headers,
-                          body=urllib.urlencode(params)   # Body is required for a POST...
+                          body=urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
 
         app_log.info("Request URL %s", req.body)
