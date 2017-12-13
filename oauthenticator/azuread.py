@@ -39,7 +39,7 @@ class AzureAdOAuthenticator(OAuthenticator):
 
     login_service = "AzureAD"
 
-    c.AzureAdOAuthenticator.scope = ""
+    #c.AzureAdOAuthenticator.scope = ""
 
     login_handler = AzureAdLoginHandler
 
