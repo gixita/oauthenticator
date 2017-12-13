@@ -81,9 +81,6 @@ class AzureAdOAuthenticator(OAuthenticator):
         )
 
         data = urllib.parse.urlencode(params, doseq=True, encoding='utf-8', safe='=')
-        #"&".join("{}={}".format(*i) for i in mydict.items())
-
-        app_log.info("Request params %s", data)
 
         url = self.token_url
         
@@ -100,14 +97,8 @@ class AzureAdOAuthenticator(OAuthenticator):
 
         app_log.info("Response %s", resp_json)
         access_token = resp_json['access_token']
-        #context = adal.AuthenticationContext(authority_url, validate_authority=True, api_version=None)
 
-        #token = context.acquire_token_with_client_credentials(
-        #    RESOURCE,
-        #    sample_parameters['clientId'],
-        #    sample_parameters['clientSecret'])
-        
-        userdict = {"name": username}
+        userdict = {"name": "andrei"}
         # Now we set up auth_state
         userdict["auth_state"] = auth_state = {}
         # Save the access token and full GitHub reply (name, id, email) in auth state
@@ -118,7 +109,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         #  3) set up name/email for .gitconfig
         auth_state['access_token'] = access_token
         # store the whole user model in auth_state.github_user
-        auth_state['github_user'] = resp_json
+        auth_state['user'] = resp_json
         # A public email will return in the initial query (assuming default scope).
         # Private will not.
 
