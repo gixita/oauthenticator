@@ -71,13 +71,16 @@ class AzureAdOAuthenticator(OAuthenticator):
         code = handler.get_argument("code")
         http_client = AsyncHTTPClient()
 
-        params = dict(
-            client_id=self.client_id,
-            client_secret=self.client_secret,
-            grant_type = 'authorization_code',
-            code=code,
-            redirect_uri=self.get_callback_url(handler)
-        )
+        #params = dict(
+        #    client_id=self.client_id,
+        #    client_secret=self.client_secret,
+        #    grant_type = 'authorization_code',
+        #    code=code,
+        #    redirect_uri=self.get_callback_url(handler)
+        #)
+
+        params = "client_id="+self.client_id+'&client_secret='+self.client_secret+'&grant_type=authorization_code&code='+code+"&redirect_uri="+self.get_callback_url(handler)
+        app_log.info("Request params %s", params)
 
         url = self.token_url
         
@@ -85,10 +88,9 @@ class AzureAdOAuthenticator(OAuthenticator):
         req = HTTPRequest(url,
                           method="POST",
                           headers = headers,
-                          body= dictToQuery(params)#urllib.parse.urlencode(params)   # Body is required for a POST...
+                          body= params#urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
 
-        app_log.info("Request body %s", req.body)
 
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
