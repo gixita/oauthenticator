@@ -57,6 +57,13 @@ class AzureAdOAuthenticator(OAuthenticator):
         help="Token url"
     )
 
+    # we need this, as microsoft expects '&' not to be encoded in the POST body
+    def dictToQuery(d):
+        query = ''
+        for key in d.keys():
+            query += str(key) + '=' + str(d[key]) + "&"
+        return query
+
     @gen.coroutine
     def authenticate(self, handler, data=None):
         """We set up auth_state based on additional GitHub info if we
@@ -79,7 +86,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         req = HTTPRequest(url,
                           method="POST",
                           headers = headers,
-                          body=urllib.parse.urlencode(params)   # Body is required for a POST...
+                          body= dictToQuery(params)#urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
 
         app_log.info("Request body %s", req.body)
