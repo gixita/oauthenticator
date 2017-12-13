@@ -79,16 +79,21 @@ class AzureAdOAuthenticator(OAuthenticator):
         #    redirect_uri=self.get_callback_url(handler)
         #)
 
-        params = "client_id="+self.client_id+'&client_secret='+self.client_secret+'&grant_type=authorization_code&code='+code+"&redirect_uri="+self.get_callback_url(handler)
-        app_log.info("Request params %s", params)
+        params = "client_id="+self.client_id+
+                '&client_secret='+self.client_secret+
+                '&grant_type=authorization_code&code='+code+
+                "&redirect_uri="+self.get_callback_url(handler)+
+                "&resource=a67c1e23-de97-4783-99f3-db500c34982c"
+
+        app_log.info("Request params %s", params.decode('utf-8'))
 
         url = self.token_url
         
-        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        headers = {'Content-Type': 'application/x-www-form-urlencoded; ; charset=UTF-8"'}
         req = HTTPRequest(url,
-                          method="POST",
+                          method = "POST",
                           headers = headers,
-                          body= params#urllib.parse.urlencode(params)   # Body is required for a POST...
+                          body = params.decode('utf-8')#urllib.parse.urlencode(params)   # Body is required for a POST...
                           )
 
 
