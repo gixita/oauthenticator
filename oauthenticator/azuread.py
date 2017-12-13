@@ -29,9 +29,9 @@ def _api_headers(access_token):
 
 
 class AzureAdMixin(OAuth2Mixin):
-    _OAUTH_AUTHORIZE_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/v2.0/authorize"
+     _OAUTH_AUTHORIZE_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/authorize"
     #"%s://%s/login/oauth/authorize" % (GITHUB_PROTOCOL, GITHUB_HOST)
-    _OAUTH_ACCESS_TOKEN_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/token" #"%s://%s/login/oauth/access_token" % (GITHUB_PROTOCOL, GITHUB_HOST)
+     _OAUTH_ACCESS_TOKEN_URL = "https://login.microsoftonline.com/614394fc-4a6e-4716-b6e5-dd981b25a32b/oauth2/token" #"%s://%s/login/oauth/access_token" % (GITHUB_PROTOCOL, GITHUB_HOST)
 
 class AzureAdLoginHandler(OAuthLoginHandler, AzureAdMixin):
     pass
@@ -41,8 +41,8 @@ class AzureAdOAuthenticator(OAuthenticator):
 
     login_service = "AzureAD"
 
-    client_id_env = 'GITHUB_CLIENT_ID'
-    client_secret_env = 'GITHUB_CLIENT_SECRET'
+    #c.AzureAdOAuthenticator.scope = ""
+
     login_handler = AzureAdLoginHandler
 
     @gen.coroutine
@@ -50,8 +50,27 @@ class AzureAdOAuthenticator(OAuthenticator):
         """We set up auth_state based on additional GitHub info if we
         receive it.
         """
-        #code = handler.get_argument("code")
-        
+        code = handler.get_argument("code")
+
+        params = dict(
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            code=code
+        )
+
+        url = url_concat(_OAUTH_ACCESS_TOKEN_URL, params)
+
+        req = HTTPRequest(url,
+                          method="POST",
+                          headers={"Accept": "application/json"},
+                          body=''  # Body is required for a POST...
+                          )
+
+        resp = yield http_client.fetch(req)
+        resp_json = json.loads(resp.body.decode('utf8', 'replace'))
+
+        print(resp_json)
+
         #context = adal.AuthenticationContext(authority_url, validate_authority=True, api_version=None)
 
         #token = context.acquire_token_with_client_credentials(
