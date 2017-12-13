@@ -44,7 +44,7 @@ class AzureAdOAuthenticator(OAuthenticator):
 
     client_id_env = 'GITHUB_CLIENT_ID'
     client_secret_env = 'GITHUB_CLIENT_SECRET'
-    login_handler = GitHubLoginHandler
+    login_handler = AzureAdLoginHandler
 
     @gen.coroutine
     def authenticate(self, handler, data=None):
