@@ -81,7 +81,7 @@ class AzureAdOAuthenticator(OAuthenticator):
 
         data = urllib.parse.urlencode(params, doseq=True, encoding='utf-8')
 
-        app_log.info("Request params %s", data.decode('utf-8'))
+        app_log.info("Request params %s", data)
 
         url = self.token_url
         
