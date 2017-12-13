@@ -9,6 +9,7 @@ import re
 import string
 
 from tornado.auth import OAuth2Mixin
+from tornado.log import app_log
 from tornado import gen, web
 
 from tornado.httputil import url_concat
@@ -71,10 +72,11 @@ class AzureAdOAuthenticator(OAuthenticator):
             redirect_uri = self.oauth_callback_url
         )
 
-        print(params)
+        app_log.info("Request params %s", params)
+        app_log.info("Request URL %s", self.token_url)
 
         url = url_concat(self.token_url, params)
-
+        
         req = HTTPRequest(url,
                           method="POST",
                           headers={"Accept": "application/json"},
