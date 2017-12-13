@@ -61,6 +61,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         receive it.
         """
         code = handler.get_argument("code")
+        http_client = AsyncHTTPClient()
 
         params = dict(
             client_id=self.client_id,
@@ -88,7 +89,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         #    sample_parameters['clientId'],
         #    sample_parameters['clientSecret'])
 
-        return None
+        return "andrei"
 #            import os
 #from azure.common.credentials import ServicePrincipalCredentials
 #from azure.mgmt.resource import ResourceManagementClient
