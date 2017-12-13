@@ -75,13 +75,14 @@ class AzureAdOAuthenticator(OAuthenticator):
 
         url = self.token_url
         
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         req = HTTPRequest(url,
                           method="POST",
-                          headers={"Content-Type": "application/x-www-form-urlencoded"},
-                          body=urllib.parse.urlencode(params)   # Body is required for a POST...
+                          headers = headers,
+                          body=urllib.urlencode(params)   # Body is required for a POST...
                           )
 
-        app_log.info("Request URL %s", req)
+        app_log.info("Request URL %s", req.body)
 
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
