@@ -100,9 +100,7 @@ class AzureAdOAuthenticator(OAuthenticator):
         id_token = resp_json['id_token']
         decoded = jwt.decode(id_token, verify=False)
 
-        print(decoded)
-
-        userdict = {"name": decoded['preferred_username']}
+        userdict = {"name": decoded['name']}
         # Now we set up auth_state
         userdict["auth_state"] = auth_state = {}
         auth_state['access_token'] = access_token
