@@ -4,6 +4,7 @@ Custom Authenticator to use Azure AD with JupyterHub
 """
 
 import json
+import jwt
 import os
 import re
 import string
