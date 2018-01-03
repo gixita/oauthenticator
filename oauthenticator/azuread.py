@@ -45,9 +45,7 @@ class AzureAdLoginHandler(OAuthLoginHandler, AzureAdMixin):
 
 class AzureAdOAuthenticator(OAuthenticator):
 
-    login_service = "AzureAD"
-
-    #c.AzureAdOAuthenticator.scope = ""
+    login_service = "Azure AD"
 
     login_handler = AzureAdLoginHandler
 
@@ -98,21 +96,18 @@ class AzureAdOAuthenticator(OAuthenticator):
         app_log.info("Response %s", resp_json)
         access_token = resp_json['access_token']
 
-        userdict = {"name": "andrei"}
+        id_token = resp_json['id_token']
+        decoded = jwt.decode(id_token, verify=False)
+
+        print(decoded)
+
+        userdict = {"name": decoded['preferred_username']}
         # Now we set up auth_state
         userdict["auth_state"] = auth_state = {}
-        # Save the access token and full GitHub reply (name, id, email) in auth state
-        # These can be used for user provisioning in the Lab/Notebook environment.
-        # e.g.
-        #  1) stash the access token
-        #  2) use the GitHub ID as the id
-        #  3) set up name/email for .gitconfig
         auth_state['access_token'] = access_token
         # store the whole user model in auth_state.github_user
-        auth_state['user'] = resp_json
-        # A public email will return in the initial query (assuming default scope).
-        # Private will not.
-
+        auth_state['user'] = decoded
+        
         return userdict
 
 class LocalAzureAdOAuthenticator(LocalAuthenticator, AzureAdOAuthenticator):
