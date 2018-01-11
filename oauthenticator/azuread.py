@@ -50,12 +50,6 @@ class AzureAdOAuthenticator(OAuthenticator):
 
     login_handler = AzureAdLoginHandler
 
-    authorize_url = Unicode(
-        os.environ.get('OAUTH_AUTHORIZE_URL', ''),
-        config=True,
-        help="Authorize url"
-    )
-
     token_url = Unicode(
         os.environ.get('OAUTH2_TOKEN_URL', ''),
         config=True,
